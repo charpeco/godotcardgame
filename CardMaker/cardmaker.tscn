@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://sprites/symbols/chi.png" type="Texture" id=1]
 [ext_resource path="res://sprites/symbols/kagami.png" type="Texture" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://sprites/symbols/karada.png" type="Texture" id=21]
 [ext_resource path="res://sprites/symbols/tomo.png" type="Texture" id=22]
 [ext_resource path="res://sprites/symbols/ue.png" type="Texture" id=23]
+[ext_resource path="res://sprites/symbols/teki.png" type="Texture" id=24]
 
 [node name="cardmaker" type="Node2D"]
 position = Vector2( 1.49829, 7.49153 )
@@ -372,6 +373,7 @@ margin_left = 451.951
 margin_top = 151.951
 margin_right = 631.951
 margin_bottom = 331.951
+columns = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -387,10 +389,19 @@ texture_disabled = ExtResource( 3 )
 [node name="ue" type="TextureButton" parent="modifier_symbols" groups=[
 "modifier_symbols",
 ]]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 23 )
+texture_disabled = ExtResource( 3 )
+
+[node name="teki" type="TextureButton" parent="modifier_symbols" groups=[
+"modifier_symbols",
+]]
 margin_top = 104.0
 margin_right = 100.0
 margin_bottom = 204.0
-texture_normal = ExtResource( 23 )
+texture_normal = ExtResource( 24 )
 texture_disabled = ExtResource( 3 )
 
 [node name="delete_button" type="Button" parent="."]

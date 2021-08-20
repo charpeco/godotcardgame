@@ -97,6 +97,9 @@ func _on_card_cast(received_slot_five_dict, received_slot_six_dict, cost):
 #func _process(delta):
 #	pass
 
+#Refactor this function, the function after it, and any other targeting functions to 
+#work like the button groups in the cardmaker--after all, they're just all emitting
+#a string and the same signal.
 func _on_targeting_button_pressed():
 	target = "opponent"
 	emit_signal("target_chosen")

@@ -4,6 +4,10 @@ var sprite_path = null
 var search_condition = null
 const card_save_path = "user://"
 
+const sqlite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
+var db = null
+var db_name = "res://sqlite_data/database.db"
+
 #This gets filled by looping in _ready because there's a bunch of stuff in it and it'll be a pain
 #to maintain going forward.
 var symbol_sprite_dict = {}
@@ -11,7 +15,8 @@ var symbol_sprite_dict = {}
 const base_card_template = preload("res://card_templates/basecardtemplate.tscn")
 
 
-const effect_dict = {"hi" : {
+const effect_dict = {
+						"hi" : {
 								"slot_five" : {
 									"symbol_name" : "hi",
 									"suit" : "clubs",
@@ -19,7 +24,6 @@ const effect_dict = {"hi" : {
 									"cost" : 10
 									},
 								"karada" : {
-									"effect_text" : null,
 									"identifier" : "Goblin", 
 									"effect" : "haste",
 									"power" : 1,
@@ -28,9 +32,8 @@ const effect_dict = {"hi" : {
 								"mono" : {
 									"identifier" : "Goblin Totem",
 									"effect" : "panic",
-									"activated_ability_cost" : 0,
+									"activated_ability_cost" : 15,
 									"effect_int" : 1,
-									"effect_text" : null
 										},
 								"omoi" : {
 									"effect" : "panic",
@@ -53,25 +56,21 @@ const effect_dict = {"hi" : {
 								"karada" : {
 									"identifier" : "Warhound", 
 									"effect" : "ransack",
-									"ability_trigger" : "damage_player",
+									"ability_trigger" : "self_damage_player",
 									"power" : 1,
 									"toughness" : 1,
 									"effect_int" : 1,
-									"effect_text" : null
 								},
 								"mono" : {
 									"identifier" : "Warhound Totem",
-									"triggered_ability" : null,
-									"ability_trigger" : null,
-									"activated_ability" : null,
-									"activated_ability_cost" : 0,
+									"effect" : "ransack",
+									"ability_trigger" : "any_damage_player",
 									"effect_int" : 1,
-									"effect_text" : null
 								},
 								"omoi" : {
 										"identifier" : "Ransack",
+										"effect" : "ransack",
 										"effect_int" : 2,
-										"effect_text" : null
 										},
 								"ji" : {},
 								"slot_six" : 
@@ -87,9 +86,8 @@ const effect_dict = {"hi" : {
 									"cost" : 15
 									},
 								"karada" : {
-									"effect_text" : null,
 									"identifier" : "Placeholder", 
-									"effect" : "Ferocity",
+									"effect" : "ferocity",
 									"power" : 1,
 									"toughness" : 1,
 									"effect_int" : 2
@@ -97,9 +95,9 @@ const effect_dict = {"hi" : {
 								"mono" : {
 									"identifier" : "Placeholder",
 									"effect" : "damage",
-									"activated_ability_cost" : 0,
+									"activated_ability_cost" : 10,
 									"effect_int" : 1,
-									"effect_text" : null
+									"targets" : "opponent_all"
 										},
 								"omoi" : {
 									"effect" : "damage",
@@ -110,13 +108,50 @@ const effect_dict = {"hi" : {
 								"ji" : {},
 								"slot_six" : 
 									{
-										"tomo" : "kaminari"
+										"tomo" : "kaminari",
+										"teki" : "yuki"
 										}
 								},
+						"yuki" : {
+								"slot_five" : {
+									"symbol_name" : "yuki",
+									"suit" : "hearts",
+									"row" : 2,
+									"cost" : 15
+									},
+								"karada" : {
+									"identifier" : "Frostkin", 
+									"effect" : "depower",
+									"power" : 1,
+									"toughness" : 3,
+									"effect_int" : 1,
+									"ability_trigger" : "on_block",
+									"targets" : "blocked_creature"
+									},
+								"mono" : {
+									"identifier" : "Frostkin totem",
+									"effect" : "depower",
+									"effect_int" : 1,
+									"targets" : "opponent_creatures",
+									"ability_trigger" : "player_turn_start"
+										},
+								"omoi" : {
+									"effect" : "depower",
+									"identifier" : "Depower",
+									"effect_int" : 2,
+									"targets" : "opponent_creatures"
+									},
+								"ji" : {},
+								"slot_six" : 
+									{
+										"tomo" : "chi",
+										"teki" : "honoo"
+										}
+								}
 							}
 
 const slot_six_mod_dict = {
-						"ue" : {"symbol_name " : "ue",
+						"ue" : {"symbol_name" : "ue",
 								"cost" : 1.5,
 								#Occurs to me that one modifier name for each
 								#type might be too narrow; consider adding different
@@ -127,7 +162,12 @@ const slot_six_mod_dict = {
 						"tomo" : {"symbol_name" : "tomo",
 								"cost" : 2,
 								"identifier" : "-allied",
-								"search" : true}
+								"search" : true},
+						"teki" : {"symbol_name" : "teki",
+									"cost" : 2.5,
+									"identifier" : "-allied",
+									"search" : true
+									}
 						}
 
 #Not presently in use, but kept it in case we need it down the line
@@ -167,7 +207,8 @@ var current_symbol = null
 # Also populates the symbol sprites dictionary from those buttons and populates the
 # symbol scenes dictionary from the symbols child node. Note that these are loaded from the
 # button's texture--it seemed like a good way to avoid loading the same image multiple times,
-# but it might do something screwy down the line. 
+# but it might do something screwy down the line.
+# Initializes SQLite variables
 func _ready():
 	for button in get_tree().get_nodes_in_group("effect_symbols"):
 		button.connect("pressed", self, "_effect_button_pressed", [button])
@@ -190,6 +231,8 @@ func _ready():
 	
 	for button in get_tree().get_nodes_in_group("chosen_symbol_buttons"):
 		button.connect("pressed", self, "_chosen_symbol_button_pressed", [button])
+	db = sqlite.new()
+	db.path = db_name
 
 # Again, the following two functions are currently redundant
 func _effect_button_pressed(button):
@@ -302,8 +345,16 @@ func _on_preview_button_pressed():
 													search_match
 													+ slot_six_mod_dict[selected_symbols_list[5]]["identifier"] 
 													)
-				card.slot_six_dict["effect"] = effect_dict[search_match][selected_type]["effect"]
-		print(card.slot_five_dict)
+				###KEEP THIS DICT IN MIND FOR LATER; WE'LL CERTAINLY BE DOING SOMETHING SIMILAR TO THIS
+				#IN OTHER PLACES, SO WE MIGHT WANT EITHER TO DECLARE THIS VARIABLE AT A HIGHER LEVEL
+				#OR RECYCLE THIS MODEL FOR OTHER SLIGHTLY DIFFERENT CASES.
+				var needed_keys = [
+									"effect", "effect_int", "activated_ability_cost",
+									"ability_trigger", "targets"
+									]
+				for key in needed_keys:
+					if key in effect_dict[search_match][selected_type].keys():
+						card.slot_six_dict[key] = effect_dict[search_match][selected_type][key]
 		print(card.slot_six_dict)
 		card.update()
 		$guidance.text = "You can now choose to save or to delete your card."
@@ -330,12 +381,10 @@ func _on_delete_button_pressed():
 		current_symbol = null
 
 func _on_save_pressed():
-###THIS ISN'T A SURPRISE, BUT APPARENTLY IT'S SUPER EASY TO READ JSON FILES IN PYTHON.
-#WE SHOULD GET THIS MAKING A JSON FILE AS WELL SO THAT WE CAN START SCRAPING TOGETHER OUR
-#LITTLE DATABASE
 	if get_node_or_null("card") == null:
 		pass
 	else:
+		#Saving player data locally begins here
 		var d = Directory.new()
 		if not d.dir_exists("user://test_cards"):
 			d.make_dir("user://test_cards")
@@ -345,6 +394,24 @@ func _on_save_pressed():
 		#Remember, export_data is currently a dictionary with the list_of_dicts as
 		#one value and the sprite_path_list as another.
 		saved_card.close()
+		#SQLite work begins here
+		db.open_db()
+		var table = "saved_cards"
+		var dict = {}
+		var saved_name = ""
+		#I have no idea why I had to do the following four lines in the acenine
+		#way that I did; it wasn't reading i["symbol_name"]. I'm guessing there's
+		#something screwy here with what's pointing to what, but again, this works,
+		#and screw this for now.
+		for i in get_node("card").list_of_dicts:
+			print(i)
+			for key in i.keys():
+				if key == "symbol_name":
+					saved_name += i[key] + " "
+		saved_name += get_node("card").type
+		dict["name"] = saved_name
+		dict["card_data"] = var2str(get_node("card").export_data)
+		db.insert_row(table, dict)
 		get_node_or_null("card").queue_free()
 		$guidance.text = ""
 		selected_symbols_list = [null, null, null, null, null, null]
