@@ -17,9 +17,10 @@ func load_from_file():
 		var card = base_card_template.instance()
 		card.slot_five_dict = content["export_list_of_dicts"][0]
 		card.slot_six_dict = content["export_list_of_dicts"][1]
+		card.slot_three_four_dict = content["export_list_of_dicts"][2]
+		card.slot_one_two_dict = content["export_list_of_dicts"][3]
 		card.sprite_path_list = content["export_sprite_path_list"]
 		card.type = content["type"]
-		card.list_of_dicts = [card.slot_five_dict, card.slot_six_dict]
 		add_child(card)
 		card.update()
 		card.position = $card_spawn.position
@@ -30,24 +31,26 @@ func read_from_db():
 	db.open_db()
 	var table = "saved_cards"
 	db.query("select * from " + table + ";")
-	var x_adjust = .175
+	var x_adjust = .25
 	var y_adjust = .33
 	var x_counter = 0
 	var y_counter = 0
 #Currently formatted to hold ~15 cards on screen
+#We really need to standardize the loading function here
 	for i in range(0, db.query_result.size()):
 		var db_card = base_card_template.instance()
 		var db_card_content = str2var(db.query_result[i]["card_data"])
 		db_card.slot_five_dict = db_card_content["export_list_of_dicts"][0]
 		db_card.slot_six_dict = db_card_content["export_list_of_dicts"][1]
+		db_card.slot_three_four_dict = db_card_content["export_list_of_dicts"][2]
+		db_card.slot_one_two_dict = db_card_content["export_list_of_dicts"][3]
 		db_card.sprite_path_list = db_card_content["export_sprite_path_list"]
 		db_card.type = db_card_content["type"]
-		db_card.list_of_dicts = [db_card.slot_five_dict, db_card.slot_six_dict]
 		db_card.name = db.query_result[i]["name"]
 		add_child(db_card)
 		db_card.position.x = width * (x_adjust * x_counter)
 		db_card.position.y = height * (y_adjust * y_counter)
-		if x_counter < 5:
+		if x_counter < 4:
 			x_counter += 1
 		else:
 			x_counter = 0

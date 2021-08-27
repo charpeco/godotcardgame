@@ -14,5 +14,8 @@ func _ready():
 #	pass
 
 
-func _on_test_field_player_mana_changed():
+
+
+
+func _on_player_placeholder_mana_changed():
 	self.text = "Mana:" + str(get_parent().mana)

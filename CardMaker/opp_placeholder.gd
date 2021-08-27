@@ -3,9 +3,11 @@ extends Label
 
 var health = 20 setget set_health
 signal dead
+signal health_changed
 
 func set_health(value):
 	health += value
+	emit_signal("health_changed")
 	if health < 1:
 		emit_signal("dead")
 

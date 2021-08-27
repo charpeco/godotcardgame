@@ -8,12 +8,13 @@ extends Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.text = "Life : " + str(get_parent().health)
+	self.text = "Power: " + str(get_parent().power)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
-func _on_test_creature_health_changed():
-	self.text = "Life : " + str(get_parent().health)
+
+func _on_test_creature_power_changed():
+	self.text = "Power: " + str(get_parent().power)

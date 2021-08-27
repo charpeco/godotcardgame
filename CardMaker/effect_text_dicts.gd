@@ -9,7 +9,7 @@ const effect_texts_dict = {"haste" : " that can attack the turn you summon it ",
 						"panic" : " {effect_int} creatures can't block this turn ",
 						"ransack" : " draw {effect_int} cards, then discard {effect_int} cards ",
 						"damage" : " deal {effect_int} damage to {targets} ",
-						"ferocity" : " with {effect_int} power that can't be reduced",
+						"ferocity" : " with {effect_int} extra power that can't be reduced",
 						"depower" : " reduce {targets} 's power by {effect_int}"}
 
 const effect_triggers_dict = {"any_damage_player" : "Whenever a creature deals damage to your opponent, ",

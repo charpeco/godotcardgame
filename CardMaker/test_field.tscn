@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://test_field.gd" type="Script" id=1]
 [ext_resource path="res://player_life.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://test_creature_life.gd" type="Script" id=6]
 [ext_resource path="res://test_creature.gd" type="Script" id=7]
 [ext_resource path="res://player_mana.gd" type="Script" id=8]
+[ext_resource path="res://test_creature_power.gd" type="Script" id=9]
 
 [node name="test_field" type="Node2D"]
 script = ExtResource( 1 )
@@ -39,6 +40,13 @@ margin_top = 16.0
 margin_right = 200.0
 margin_bottom = 48.0
 script = ExtResource( 8 )
+
+[node name="player_targeting_button" type="Button" parent="player_placeholder" groups=[
+"targeting_buttons",
+]]
+show_behind_parent = true
+margin_right = 110.0
+margin_bottom = 48.0
 
 [node name="opp_placeholder" type="Label" parent="."]
 margin_left = 472.0
@@ -102,26 +110,50 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="hand_one" type="Position2D" parent="."]
-position = Vector2( 128, 424 )
+[node name="test_creature_power" type="Label" parent="test_creature"]
+margin_left = 104.0
+margin_top = 32.0
+margin_right = 144.0
+margin_bottom = 46.0
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="hand_two" type="Position2D" parent="."]
-position = Vector2( 256, 512 )
+[node name="hand_one" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 128, 448 )
 
-[node name="hand_three" type="Position2D" parent="."]
-position = Vector2( 384, 512 )
+[node name="hand_two" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 256, 448 )
 
-[node name="hand_four" type="Position2D" parent="."]
-position = Vector2( 512, 512 )
+[node name="hand_three" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 376, 448 )
 
-[node name="hand_five" type="Position2D" parent="."]
-position = Vector2( 640, 512 )
+[node name="hand_four" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 512, 448 )
 
-[node name="hand_six" type="Position2D" parent="."]
-position = Vector2( 768, 512 )
+[node name="hand_five" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 640, 448 )
 
-[node name="hand_seven" type="Position2D" parent="."]
-position = Vector2( 896, 512 )
+[node name="hand_six" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 768, 448 )
+
+[node name="hand_seven" type="Position2D" parent="." groups=[
+"hand_positions",
+]]
+position = Vector2( 896, 448 )
 
 [node name="guidance" type="Label" parent="."]
 margin_right = 200.0
@@ -130,9 +162,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="opp_life_changed" from="." to="opp_placeholder/opp_life" method="_on_test_field_opp_life_changed"]
-[connection signal="player_life_changed" from="." to="player_placeholder/player_life" method="_on_test_field_player_life_changed"]
-[connection signal="player_mana_changed" from="." to="player_placeholder/player_mana" method="_on_test_field_player_mana_changed"]
-[connection signal="pressed" from="opp_placeholder/targeting_button" to="." method="_on_targeting_button_pressed"]
+[node name="draw_card_button" type="Button" parent="."]
+margin_left = 656.0
+margin_top = 360.0
+margin_right = 791.0
+margin_bottom = 424.0
+text = "Click to draw a card"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="mana_changed" from="player_placeholder" to="player_placeholder/player_mana" method="_on_player_placeholder_mana_changed"]
+[connection signal="health_changed" from="opp_placeholder" to="opp_placeholder/opp_life" method="_on_opp_placeholder_health_changed"]
 [connection signal="dead" from="test_creature" to="test_creature" method="_on_test_creature_dead"]
-[connection signal="pressed" from="test_creature/test_creature_button" to="." method="_on_test_creature_button_pressed"]
+[connection signal="health_changed" from="test_creature" to="test_creature/test_creature_life" method="_on_test_creature_health_changed"]
+[connection signal="power_changed" from="test_creature" to="test_creature/test_creature_power" method="_on_test_creature_power_changed"]
+[connection signal="pressed" from="draw_card_button" to="." method="_on_draw_card_button_pressed"]

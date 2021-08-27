@@ -13,6 +13,11 @@ config_version=4
 config/name="CardMaker"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=720
+window/size/height=1080
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/godot-sqlite/plugin.cfg" )

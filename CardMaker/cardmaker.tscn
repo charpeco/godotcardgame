@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://sprites/symbols/chi.png" type="Texture" id=1]
 [ext_resource path="res://sprites/symbols/kagami.png" type="Texture" id=2]
@@ -24,14 +24,17 @@
 [ext_resource path="res://sprites/symbols/tomo.png" type="Texture" id=22]
 [ext_resource path="res://sprites/symbols/ue.png" type="Texture" id=23]
 [ext_resource path="res://sprites/symbols/teki.png" type="Texture" id=24]
+[ext_resource path="res://sprites/symbols/mon.png" type="Texture" id=25]
 
 [node name="cardmaker" type="Node2D"]
 position = Vector2( 1.49829, 7.49153 )
 script = ExtResource( 17 )
 
 [node name="effect_symbol_chart" type="GridContainer" parent="."]
-margin_right = 413.0
-margin_bottom = 516.0
+margin_left = 16.0659
+margin_top = 0.0880585
+margin_right = 429.066
+margin_bottom = 516.088
 columns = 4
 __meta__ = {
 "_edit_use_anchors_": false
@@ -41,14 +44,12 @@ __meta__ = {
 margin_right = 100.0
 margin_bottom = 100.0
 disabled = true
-texture_normal = ExtResource( 3 )
 
 [node name="diamonds_nothing" type="TextureButton" parent="effect_symbol_chart"]
 margin_left = 104.0
 margin_right = 204.0
 margin_bottom = 100.0
 disabled = true
-texture_normal = ExtResource( 3 )
 
 [node name="kaze" type="TextureButton" parent="effect_symbol_chart" groups=[
 "effect_symbols",
@@ -210,7 +211,6 @@ margin_top = 416.0
 margin_right = 308.0
 margin_bottom = 516.0
 disabled = true
-texture_normal = ExtResource( 3 )
 
 [node name="clubsnothing" type="TextureButton" parent="effect_symbol_chart"]
 margin_left = 312.0
@@ -218,13 +218,96 @@ margin_top = 416.0
 margin_right = 412.0
 margin_bottom = 516.0
 disabled = true
-texture_normal = ExtResource( 3 )
+
+[node name="tomo" type="TextureButton" parent="effect_symbol_chart" groups=[
+"modifier_symbols",
+]]
+margin_top = 520.0
+margin_right = 100.0
+margin_bottom = 620.0
+texture_normal = ExtResource( 22 )
+texture_disabled = ExtResource( 3 )
+
+[node name="ue" type="TextureButton" parent="effect_symbol_chart" groups=[
+"modifier_symbols",
+]]
+margin_left = 104.0
+margin_top = 520.0
+margin_right = 204.0
+margin_bottom = 620.0
+texture_normal = ExtResource( 23 )
+texture_disabled = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="teki" type="TextureButton" parent="effect_symbol_chart" groups=[
+"modifier_symbols",
+]]
+margin_left = 208.0
+margin_top = 520.0
+margin_right = 308.0
+margin_bottom = 620.0
+texture_normal = ExtResource( 24 )
+texture_disabled = ExtResource( 3 )
+
+[node name="mon" type="TextureButton" parent="effect_symbol_chart" groups=[
+"modifier_symbols",
+]]
+margin_left = 312.0
+margin_top = 520.0
+margin_right = 412.0
+margin_bottom = 620.0
+texture_normal = ExtResource( 25 )
+texture_disabled = ExtResource( 3 )
+
+[node name="karada" type="TextureButton" parent="effect_symbol_chart" groups=[
+"type_symbols",
+]]
+margin_top = 624.0
+margin_right = 100.0
+margin_bottom = 724.0
+texture_normal = ExtResource( 21 )
+texture_disabled = ExtResource( 3 )
+
+[node name="omoi" type="TextureButton" parent="effect_symbol_chart" groups=[
+"type_symbols",
+]]
+margin_left = 104.0
+margin_top = 624.0
+margin_right = 204.0
+margin_bottom = 724.0
+texture_normal = ExtResource( 18 )
+texture_disabled = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mono" type="TextureButton" parent="effect_symbol_chart" groups=[
+"type_symbols",
+]]
+margin_left = 208.0
+margin_top = 624.0
+margin_right = 308.0
+margin_bottom = 724.0
+texture_normal = ExtResource( 20 )
+texture_disabled = ExtResource( 3 )
+
+[node name="ji" type="TextureButton" parent="effect_symbol_chart" groups=[
+"type_symbols",
+]]
+margin_left = 312.0
+margin_top = 624.0
+margin_right = 412.0
+margin_bottom = 724.0
+texture_normal = ExtResource( 19 )
+texture_disabled = ExtResource( 3 )
 
 [node name="chosen_symbols" type="GridContainer" parent="."]
-margin_left = 431.0
-margin_top = 19.0
-margin_right = 1016.0
-margin_bottom = 116.0
+margin_left = 64.4258
+margin_top = 803.003
+margin_right = 649.426
+margin_bottom = 900.003
 columns = 7
 __meta__ = {
 "_edit_use_anchors_": false
@@ -299,141 +382,96 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Type"
 
-[node name="clear_button" type="Button" parent="."]
-margin_left = 887.697
-margin_top = 368.624
-margin_right = 1018.7
-margin_bottom = 470.624
-text = "Clear"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="type_symbols" type="GridContainer" parent="."]
-margin_left = 440.953
-margin_top = 381.329
-margin_right = 625.953
-margin_bottom = 585.329
-columns = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="karada" type="TextureButton" parent="type_symbols" groups=[
-"type_symbols",
-]]
-margin_right = 100.0
-margin_bottom = 100.0
-texture_normal = ExtResource( 21 )
-texture_disabled = ExtResource( 3 )
-
-[node name="omoi" type="TextureButton" parent="type_symbols" groups=[
-"type_symbols",
-]]
-margin_left = 104.0
-margin_right = 204.0
-margin_bottom = 100.0
-texture_normal = ExtResource( 18 )
-texture_disabled = ExtResource( 3 )
-
-[node name="mono" type="TextureButton" parent="type_symbols" groups=[
-"type_symbols",
-]]
-margin_top = 104.0
-margin_right = 100.0
-margin_bottom = 204.0
-texture_normal = ExtResource( 20 )
-texture_disabled = ExtResource( 3 )
-
-[node name="ji" type="TextureButton" parent="type_symbols" groups=[
-"type_symbols",
-]]
-margin_left = 104.0
-margin_top = 104.0
-margin_right = 204.0
-margin_bottom = 204.0
-texture_normal = ExtResource( 19 )
-texture_disabled = ExtResource( 3 )
-
 [node name="card_spawn" type="Position2D" parent="."]
-position = Vector2( 683.365, 286.938 )
+position = Vector2( 390.972, 437.07 )
 
-[node name="preview_button" type="Button" parent="."]
-margin_left = 897.468
-margin_top = 272.698
-margin_right = 1017.47
-margin_bottom = 358.698
+[node name="guidance" type="Label" parent="."]
+margin_left = 19.7621
+margin_top = 715.228
+margin_right = 396.762
+margin_bottom = 756.228
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="symbol_description" type="RichTextLabel" parent="."]
+margin_left = 444.0
+margin_top = 4.0
+margin_right = 708.0
+margin_bottom = 419.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="guidance_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="operations" type="GridContainer" parent="."]
+margin_left = 16.0
+margin_top = 936.0
+margin_right = 692.0
+margin_bottom = 1044.0
+columns = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="delete_button" type="Button" parent="operations"]
+margin_right = 132.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Delete Card"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="clear_button" type="Button" parent="operations"]
+margin_left = 136.0
+margin_right = 268.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Clear Card"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="preview_button" type="Button" parent="operations"]
+margin_left = 272.0
+margin_right = 404.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Preview"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="modifier_symbols" type="GridContainer" parent="."]
-margin_left = 451.951
-margin_top = 151.951
-margin_right = 631.951
-margin_bottom = 331.951
-columns = 2
+[node name="save" type="Button" parent="operations"]
+margin_left = 408.0
+margin_right = 540.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Save Card"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="tomo" type="TextureButton" parent="modifier_symbols" groups=[
-"modifier_symbols",
-]]
-margin_right = 100.0
-margin_bottom = 100.0
-texture_normal = ExtResource( 22 )
-texture_disabled = ExtResource( 3 )
+[node name="clear_symbol" type="Button" parent="operations"]
+margin_left = 544.0
+margin_right = 676.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Remove Symbol"
 
-[node name="ue" type="TextureButton" parent="modifier_symbols" groups=[
-"modifier_symbols",
-]]
-margin_left = 104.0
-margin_right = 204.0
-margin_bottom = 100.0
-texture_normal = ExtResource( 23 )
-texture_disabled = ExtResource( 3 )
-
-[node name="teki" type="TextureButton" parent="modifier_symbols" groups=[
-"modifier_symbols",
-]]
-margin_top = 104.0
-margin_right = 100.0
-margin_bottom = 204.0
-texture_normal = ExtResource( 24 )
-texture_disabled = ExtResource( 3 )
-
-[node name="delete_button" type="Button" parent="."]
-margin_left = 895.0
-margin_top = 481.0
-margin_right = 1022.0
-margin_bottom = 566.0
-text = "Delete"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="guidance" type="Label" parent="."]
-margin_left = 24.0
-margin_top = 533.0
-margin_right = 401.0
-margin_bottom = 574.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="save" type="Button" parent="."]
-margin_left = 908.0
-margin_top = 190.0
-margin_right = 1018.0
-margin_bottom = 260.0
-text = "Save"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[connection signal="pressed" from="clear_button" to="." method="_on_clear_button_pressed"]
-[connection signal="pressed" from="preview_button" to="." method="_on_preview_button_pressed"]
-[connection signal="pressed" from="delete_button" to="." method="_on_delete_button_pressed"]
-[connection signal="pressed" from="save" to="." method="_on_save_pressed"]
+[connection signal="guidance_changed" from="." to="." method="_on_cardmaker_guidance_changed"]
+[connection signal="timeout" from="guidance_timer" to="." method="_on_guidance_timer_timeout"]
+[connection signal="pressed" from="operations/delete_button" to="." method="_on_delete_button_pressed"]
+[connection signal="pressed" from="operations/clear_button" to="." method="_on_clear_button_pressed"]
+[connection signal="pressed" from="operations/preview_button" to="." method="_on_preview_button_pressed"]
+[connection signal="pressed" from="operations/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="operations/clear_symbol" to="." method="_on_clear_symbol_pressed"]
